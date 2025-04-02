@@ -1,162 +1,179 @@
-# Sendoo
+# Sendoo - Package Delivery Service
 
-Sendoo is a web application for package delivery services, connecting users with drivers to send packages efficiently and securely.
+![Sendoo Logo](public/images/logo.png)
 
-## Overview
+## 📦 Introduction
 
-Sendoo allows users to:
-- Send packages from one location to another
-- Select appropriate vehicles based on package size and weight
-- Track deliveries in real-time
-- Manage payment methods securely
-- Review delivery history and analytics
+Sendoo is a modern, user-friendly package delivery service web application designed to provide seamless shipping experiences. The platform offers real-time tracking, offline capabilities, and a responsive interface for managing deliveries from any device.
 
-## Features
+**Live Demo:** [https://sendoo.netlify.app/](https://sendoo.netlify.app/)
 
-### User Authentication
-- Secure login and registration system
-- JWT-based authentication
-- "Remember me" functionality
-- Password encryption with bcrypt
+**Project Blog:** [Building a Modern Delivery Service Platform](https://medium.com/@umuhozaallyk/building-a-modern-delivery-service-platform-with-javascript-and-pwa-features)
 
-### Package Delivery
-- Multi-step form for creating delivery requests
-- Package information collection (size, weight, quantity)
-- Vehicle selection (bike, car, truck) based on package details
-- Origin and destination location selection
+**Author:** [Umuhoza Ally Khaled](https://www.linkedin.com/in/umuhozaallyk/)
 
-### Location Services
-- Integration with Google Maps API
-- Address validation
-- Distance calculation
-- Route visualization
-- Estimated delivery time calculator
+![Sendoo Dashboard Screenshot](public/images/screenshots/dashboard.png)
 
-### Delivery Tracking
-- Real-time status updates
-- Filtering options (In Progress, Waiting for Pickup, Delivered)
-- Detailed view for each delivery
-- Delivery confirmation
-- Rating and feedback system
+## ✨ Features
 
-### Payment Processing
-- Secure payment method management via Stripe
-- Multiple payment methods support
-- Payment calculation based on distance and vehicle type
-- Receipt generation
-- Payment history
+- **Real-time Delivery Tracking**: Monitor your package's journey with live updates
+- **Offline Support**: Continue using the app even without an internet connection
+- **Progressive Web App (PWA)**: Install on your device for a native app-like experience
+- **Responsive Design**: Seamless experience across desktop, tablet, and mobile devices
+- **Form Validation**: Comprehensive client-side validation for all forms
+- **User Authentication**: Secure login and registration system
+- **Interactive Dashboard**: Visual representation of delivery statistics and history
 
-### History and Analytics
-- Complete delivery history
-- Sorting and filtering options
-- Usage statistics dashboard
-- Spending summaries
-- Route and vehicle preferences analytics
+## 🚀 Technologies Used
 
-## Technical Architecture
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **PWA Features**: Service Workers, Web Manifest, IndexedDB
+- **Real-time Updates**: WebSockets
+- **Responsive Design**: CSS Grid, Flexbox
+- **Form Validation**: Custom validation library
+- **Deployment**: Netlify
 
-### Frontend
-- React.js for UI components
-- Redux for state management
-- Responsive design for mobile and desktop
+## 🛠️ Installation
 
-### Backend
-- Node.js with Express
-- RESTful API architecture
-- JWT for authentication
+To set up the project locally, follow these steps:
 
-### Database
-- MongoDB (NoSQL) for flexible data storage
-
-### External APIs
-- Google Maps API for location services
-- Stripe API for payment processing
-
-### API Endpoints
-
-#### User Authentication
-- `POST /api/user/login` - User login
-- `POST /api/user/register` - User registration
-
-#### Package Management
-- `POST /api/package` - Create a new package delivery request
-- `GET /api/package/{id}` - Get details of a specific package
-
-#### Vehicle Selection
-- `GET /api/vehicles` - Get available vehicles based on package details
-
-## Data Models
-
-### User
-- Name
-- Email
-- Password (hashed)
-- Contact information
-- Payment methods
-- Delivery history
-
-### Package
-- Origin address
-- Destination address
-- Package details (weight, size, quantity)
-- Selected vehicle type
-- Status (pending, picked up, delivered)
-- Timestamps
-
-### Vehicle
-- Type (bike, car, truck)
-- Capacity
-- Price rates
-
-## Getting Started
-
-### Prerequisites
-- Node.js (v14+)
-- MongoDB
-- Google Maps API key
-- Stripe API credentials
-
-### Installation
-1. Clone the repository
-   ```
-   git clone https://github.com/yourusername/sendoo.git
-   cd sendoo
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/CodedMatrix/Sendoo.git
+   cd Sendoo
    ```
 
-2. Install dependencies
-   ```
+2. If you're using a package manager (optional):
+   ```bash
+   # Using npm
    npm install
+
+   # Using yarn
+   yarn install
    ```
 
-3. Create a `.env` file with the following variables:
-   ```
-   PORT=5000
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-   STRIPE_SECRET_KEY=your_stripe_secret_key
-   ```
+3. Start a local development server:
+   ```bash
+   # If you have Node.js installed
+   npx serve public
 
-4. Start the development server
-   ```
-   npm run dev
+   # Or use any static file server
+   python -m http.server 8000 --directory public
    ```
 
-5. Access the application at `http://localhost:3000`
+4. Open your browser and navigate to `http://localhost:8000` or the port specified by your server.
 
-## Deployment
+## 📱 Usage
 
-The application can be deployed to platforms like Heroku, AWS, or DigitalOcean.
+### Creating a Delivery
 
-## Future Enhancements
-- Driver application and management
-- Subscription-based delivery plans
-- International shipping options
-- Integration with e-commerce platforms
-- Mobile applications (iOS/Android)
+1. Navigate to the "Send Package" page
+2. Fill in the package details (weight, dimensions, etc.)
+3. Enter pickup and delivery addresses
+4. Add recipient information
+5. Choose a delivery method
+6. Complete payment
+7. Receive a tracking number for your shipment
 
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Tracking a Package
 
-## Contributors
-- UMUHOZA ALLY KHALED "umuhozaallykhaled@gmail.com"
+1. Go to the "Track" page
+2. Enter your tracking number (format: SD-XXXXXX-XXXX)
+3. View real-time status updates and delivery information
+
+### Using Offline Features
+
+1. The app will automatically detect when you're offline
+2. You can still browse previously loaded pages
+3. Create deliveries that will sync when you're back online
+4. Access cached tracking information
+
+![Sendoo Tracking Screenshot](public/images/screenshots/tracking.png)
+
+## 🧩 Project Structure
+
+```
+sendoo/
+├── public/               # Public-facing files
+│   ├── css/              # Stylesheets
+│   ├── js/               # JavaScript files
+│   │   ├── main.js       # Main application logic
+│   │   ├── validation.js # Form validation utilities
+│   │   ├── socket.js     # WebSocket connections
+│   │   └── auth.js       # Authentication logic
+│   ├── images/           # Images and icons
+│   ├── pages/            # HTML pages
+│   ├── service-worker.js # Service worker for offline support
+│   ├── manifest.json     # PWA manifest
+│   ├── offline.html      # Offline fallback page
+│   └── index.html        # Main entry point
+├── server/               # Server-side code (if applicable)
+├── docs/                 # Documentation
+└── README.md             # Project documentation
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can contribute:
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Commit your changes (`git commit -m 'Add some amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
+Please make sure to update tests as appropriate and adhere to the existing coding style.
+
+### Development Guidelines
+
+- Follow the existing code style and naming conventions
+- Write descriptive commit messages
+- Update documentation for any new features
+- Add appropriate comments to your code
+- Test your changes thoroughly before submitting a pull request
+
+## 🔗 Related Projects
+
+- [Sendoo Mobile App](https://github.com/CodedMatrix/sendoo-mobile) - Native mobile application for Sendoo
+- [Sendoo API](https://github.com/CodedMatrix/sendoo-api) - Backend API for Sendoo services
+- [Sendoo Admin Dashboard](https://github.com/CodedMatrix/sendoo-admin) - Administrative interface for Sendoo
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2025 Umuhoza Ally Khaled
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## 🙏 Acknowledgements
+
+- [Font Awesome](https://fontawesome.com/) for the icons
+- [Netlify](https://www.netlify.com/) for hosting the application
+- All contributors who have helped improve this project
+- Special thanks to the open-source community for their invaluable resources
+
+---
+
+Made with ❤️ by [Umuhoza Ally Khaled](https://github.com/CodedMatrix) 
