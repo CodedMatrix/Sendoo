@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Delivery Confirmation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="create-delivery.html" class="active">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="#" class="user-menu">
+                <i class="fas fa-user-circle"></i>
+                <span>John Doe</span>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Confirmation Section -->
+    <section class="delivery-container">
+        <div class="confirmation-container">
+            <div class="confirmation-header">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>Delivery Request Confirmed!</h1>
+                <p>Your package delivery has been scheduled successfully</p>
+            </div>
+            
+            <div class="confirmation-details">
+                <div class="tracking-info">
+                    <h2>Tracking Information</h2>
+                    <div class="tracking-number">
+                        <span>Tracking Number:</span>
+                        <span id="trackingNumber">SND-12345678</span>
+                        <button class="btn btn-outline btn-small copy-btn" data-clipboard-target="#trackingNumber">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <p>Use this tracking number to monitor your delivery status</p>
+                </div>
+                
+                <div class="delivery-summary">
+                    <h2>Delivery Summary</h2>
+                    
+                    <div class="summary-section">
+                        <h3><i class="fas fa-box"></i> Package Details</h3>
+                        <div class="summary-row">
+                            <span>Package Type:</span>
+                            <span>Medium Package</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Weight:</span>
+                            <span>5.2 kg</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <h3><i class="fas fa-map-marker-alt"></i> Pickup Information</h3>
+                        <div class="summary-row">
+                            <span>Address:</span>
+                            <span>123 Sender Street, City</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Date & Time:</span>
+                            <span>June 15, 2025 • Morning (8AM - 12PM)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <h3><i class="fas fa-map-pin"></i> Delivery Information</h3>
+                        <div class="summary-row">
+                            <span>Address:</span>
+                            <span>456 Recipient Avenue, City</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Recipient:</span>
+                            <span>Jane Smith</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <h3><i class="fas fa-truck"></i> Delivery Method</h3>
+                        <div class="summary-row">
+                            <span>Vehicle:</span>
+                            <span>Car Delivery</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Options:</span>
+                            <span>Express Delivery</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section payment-summary">
+                        <h3><i class="fas fa-receipt"></i> Payment Summary</h3>
+                        <div class="summary-row">
+                            <span>Base Fee:</span>
+                            <span>$14.99</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Additional Services:</span>
+                            <span>$5.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax:</span>
+                            <span>$2.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total Paid:</span>
+                            <span>$21.99</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-actions">
+                    <a href="track-delivery.html" class="btn btn-primary">
+                        <i class="fas fa-search-location"></i> Track Your Package
+                    </a>
+                    <a href="create-delivery.html" class="btn btn-outline">
+                        <i class="fas fa-plus"></i> Create Another Delivery
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sendoo</h3>
+                <p>Fast, reliable package delivery for everyone.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="history.html">Delivery History</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // Copy tracking number functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyBtn = document.querySelector('.copy-btn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function() {
+                    const trackingNumber = document.getElementById('trackingNumber').textContent;
+                    navigator.clipboard.writeText(trackingNumber).then(() => {
+                        // Change button text temporarily
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        
+                        // Reset button text after 2 seconds
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+                });
+            }
+        });
+    </script>
+    
+    <style>
+        /* Confirmation page specific styles */
+        .confirmation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        .confirmation-header {
+            text-align: center;
+            padding: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--success-light) 0%, var(--success-color) 100%);
+            color: var(--white);
+        }
+        
+        .confirmation-icon {
+            font-size: 5rem;
+            margin-bottom: var(--spacing-md);
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        .confirmation-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .confirmation-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .confirmation-details {
+            padding: var(--spacing-xl);
+        }
+        
+        .tracking-info {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background-color: var(--gray-50);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .tracking-info h2 {
+            color: var(--gray-800);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .tracking-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.2rem;
+        }
+        
+        .tracking-number span:last-of-type {
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+        
+        .copy-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .delivery-summary {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .delivery-summary h2 {
+            margin-bottom: var(--spacing-lg);
+            color: var(--gray-800);
+            text-align: center;
+        }
+        
+        .summary-section {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background-color: var(--gray-50);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .summary-section h3 {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            color: var(--gray-800);
+            font-size: 1.2rem;
+        }
+        
+        .summary-section h3 i {
+            color: var(--primary-color);
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px dashed var(--gray-200);
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-row span:first-child {
+            color: var(--gray-600);
+        }
+        
+        .summary-row span:last-child {
+            font-weight: 500;
+            color: var(--gray-800);
+        }
+        
+        .summary-row.total {
+            font-weight: 700;
+            color: var(--gray-900);
+            font-size: 1.1rem;
+            margin-top: var(--spacing-sm);
+        }
+        
+        .payment-summary {
+            background-color: rgba(79, 70, 229, 0.05);
+            border-color: var(--primary-light);
+        }
+        
+        .confirmation-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .confirmation-header h1 {
+                font-size: 2rem;
+            }
+            
+            .confirmation-actions {
+                flex-direction: column;
+            }
+            
+            .confirmation-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Create Delivery</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times-circle:before { content: "❌"; }
+        .fa-spinner:before { content: "🔄"; }
+        .fa-search:before { content: "🔍"; }
+        .fa-clock:before { content: "🕒"; }
+        .fa-calendar:before { content: "📅"; }
+        .fa-box-open:before { content: "📦"; }
+        .fa-motorcycle:before { content: "🏍️"; }
+        .fa-weight:before { content: "⚖️"; }
+        .fa-ruler-combined:before { content: "📏"; }
+        .fa-user-friends:before { content: "👥"; }
+        .fa-arrow-right:before { content: "➡️"; }
+        .fa-arrow-left:before { content: "⬅️"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+        
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+        
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="create-delivery.html" class="active">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <!-- Will be populated by auth.js -->
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Create Delivery Section -->
+    <section class="create-delivery-container">
+        <div class="create-delivery-header">
+            <h1>Send a Package</h1>
+            <p>Fill in the details below to create a new delivery request.</p>
+        </div>
+        
+        <!-- Multi-step Form -->
+        <div class="multi-step-form">
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Package Details</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Addresses</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Delivery Options</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Payment</div>
+                </div>
+            </div>
+            
+            <!-- Form Steps -->
+            <form id="delivery-form">
+                <!-- Step 1: Package Details -->
+                <div class="form-step active" data-step="1">
+                    <h2>Package Details</h2>
+                    
+                    <div class="form-group">
+                        <label for="package-type">Package Type</label>
+                        <div class="select-with-icon">
+                            <i class="fas fa-box"></i>
+                            <select id="package-type" name="packageType" required>
+                                <option value="" disabled selected>Select package type</option>
+                                <option value="Small">Small (up to 5kg)</option>
+                                <option value="Medium">Medium (5-15kg)</option>
+                                <option value="Large">Large (15-30kg)</option>
+                                <option value="Extra Large">Extra Large (30kg+)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-weight"></i>
+                            <input type="number" id="weight" name="weight" min="0.1" step="0.1" placeholder="Enter package weight" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Dimensions (cm)</label>
+                        <div class="dimensions-inputs">
+                            <div class="input-with-label">
+                                <input type="number" id="length" name="length" min="1" placeholder="Length" required>
+                                <label for="length">Length</label>
+                            </div>
+                            <div class="input-with-label">
+                                <input type="number" id="width" name="width" min="1" placeholder="Width" required>
+                                <label for="width">Width</label>
+                            </div>
+                            <div class="input-with-label">
+                                <input type="number" id="height" name="height" min="1" placeholder="Height" required>
+                                <label for="height">Height</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Special Instructions (Optional)</label>
+                        <textarea id="notes" name="notes" placeholder="Any special handling instructions or notes"></textarea>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-primary next-step">Continue to Addresses</button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Addresses -->
+                <div class="form-step" data-step="2">
+                    <h2>Pickup & Delivery Addresses</h2>
+                    
+                    <div class="address-section">
+                        <h3>Pickup Address</h3>
+                        
+                        <div class="form-group">
+                            <label for="pickup-street">Street Address</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="pickup-street" name="pickupStreet" placeholder="Enter street address" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pickup-city">City</label>
+                                <input type="text" id="pickup-city" name="pickupCity" placeholder="Enter city" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pickup-state">State/Province</label>
+                                <input type="text" id="pickup-state" name="pickupState" placeholder="Enter state" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pickup-zip">Zip/Postal Code</label>
+                                <input type="text" id="pickup-zip" name="pickupZip" placeholder="Enter zip code" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pickup-country">Country</label>
+                                <input type="text" id="pickup-country" name="pickupCountry" placeholder="Enter country" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="address-section">
+                        <h3>Delivery Address</h3>
+                        
+                        <div class="form-group">
+                            <label for="recipient-name">Recipient Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user-friends"></i>
+                                <input type="text" id="recipient-name" name="recipientName" placeholder="Enter recipient's full name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="recipient-phone">Recipient Phone</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" id="recipient-phone" name="recipientPhone" placeholder="Enter recipient's phone number" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="recipient-email">Recipient Email (Optional)</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="recipient-email" name="recipientEmail" placeholder="Enter recipient's email">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="delivery-street">Street Address</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="delivery-street" name="deliveryStreet" placeholder="Enter street address" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="delivery-city">City</label>
+                                <input type="text" id="delivery-city" name="deliveryCity" placeholder="Enter city" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="delivery-state">State/Province</label>
+                                <input type="text" id="delivery-state" name="deliveryState" placeholder="Enter state" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="delivery-zip">Zip/Postal Code</label>
+                                <input type="text" id="delivery-zip" name="deliveryZip" placeholder="Enter zip code" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="delivery-country">Country</label>
+                                <input type="text" id="delivery-country" name="deliveryCountry" placeholder="Enter country" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-outline prev-step">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Delivery Options</button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Delivery Options -->
+                <div class="form-step" data-step="3">
+                    <h2>Delivery Options</h2>
+                    
+                    <div class="form-group">
+                        <label>Select Vehicle Type</label>
+                        <div class="vehicle-options">
+                            <div class="vehicle-option">
+                                <input type="radio" id="vehicle-bicycle" name="vehicleType" value="Bicycle" required>
+                                <label for="vehicle-bicycle">
+                                    <div class="vehicle-icon">
+                                        <i class="fas fa-bicycle"></i>
+                                    </div>
+                                    <div class="vehicle-info">
+                                        <h4>Bicycle</h4>
+                                        <p>Small packages, local delivery</p>
+                                        <span class="vehicle-price">Cheapest</span>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div class="vehicle-option">
+                                <input type="radio" id="vehicle-motorcycle" name="vehicleType" value="Motorcycle" required>
+                                <label for="vehicle-motorcycle">
+                                    <div class="vehicle-icon">
+                                        <i class="fas fa-motorcycle"></i>
+                                    </div>
+                                    <div class="vehicle-info">
+                                        <h4>Motorcycle</h4>
+                                        <p>Medium packages, faster delivery</p>
+                                        <span class="vehicle-price">Economy</span>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div class="vehicle-option">
+                                <input type="radio" id="vehicle-car" name="vehicleType" value="Car" required>
+                                <label for="vehicle-car">
+                                    <div class="vehicle-icon">
+                                        <i class="fas fa-car"></i>
+                                    </div>
+                                    <div class="vehicle-info">
+                                        <h4>Car</h4>
+                                        <p>Medium to large packages</p>
+                                        <span class="vehicle-price">Standard</span>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div class="vehicle-option">
+                                <input type="radio" id="vehicle-truck" name="vehicleType" value="Truck" required>
+                                <label for="vehicle-truck">
+                                    <div class="vehicle-icon">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+                                    <div class="vehicle-info">
+                                        <h4>Truck</h4>
+                                        <p>Large and heavy packages</p>
+                                        <span class="vehicle-price">Premium</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-estimate">
+                        <h3>Price Estimate</h3>
+                        <div class="price-breakdown">
+                            <div class="price-item">
+                                <span>Base Price:</span>
+                                <span id="base-price">$0.00</span>
+                            </div>
+                            <div class="price-item">
+                                <span>Weight Surcharge:</span>
+                                <span id="weight-surcharge">$0.00</span>
+                            </div>
+                            <div class="price-item">
+                                <span>Vehicle Fee:</span>
+                                <span id="vehicle-fee">$0.00</span>
+                            </div>
+                            <div class="price-total">
+                                <span>Total Estimated Price:</span>
+                                <span id="total-price">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-outline prev-step">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Payment</button>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Payment -->
+                <div class="form-step" data-step="4">
+                    <h2>Payment</h2>
+                    
+                    <div class="payment-summary">
+                        <h3>Order Summary</h3>
+                        <div class="summary-details">
+                            <div class="summary-item">
+                                <span>Package Type:</span>
+                                <span id="summary-package-type">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Weight:</span>
+                                <span id="summary-weight">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Dimensions:</span>
+                                <span id="summary-dimensions">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>From:</span>
+                                <span id="summary-pickup">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>To:</span>
+                                <span id="summary-delivery">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Vehicle Type:</span>
+                                <span id="summary-vehicle">-</span>
+                            </div>
+                            <div class="summary-item total">
+                                <span>Total Price:</span>
+                                <span id="summary-price">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-form">
+                        <h3>Payment Details</h3>
+                        
+                        <div class="form-group">
+                            <label for="cardholder-name">Cardholder Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="cardholder-name" name="cardholderName" placeholder="Name on card" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="card-element">Credit or Debit Card</label>
+                            <div id="card-element" class="stripe-element">
+                                <!-- Stripe Card Element will be inserted here -->
+                            </div>
+                            <div id="card-errors" class="card-errors" role="alert"></div>
+                        </div>
+                        
+                        <div class="payment-options">
+                            <div class="save-card-option">
+                                <input type="checkbox" id="save-card" name="saveCard">
+                                <label for="save-card">Save card for future payments</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-outline prev-step">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="submit-button">
+                            <span class="btn-text">Complete Payment</span>
+                            <span class="btn-loader" style="display: none;">
+                                <i class="fas fa-circle-notch fa-spin"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Success Message (initially hidden) -->
+            <div id="payment-success" class="payment-success" style="display: none;">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Payment Successful!</h2>
+                <p>Your delivery has been confirmed and will be processed shortly.</p>
+                <div class="tracking-info">
+                    <p>Tracking Number: <span id="tracking-number"></span></p>
+                    <p>You can track your delivery using this tracking number.</p>
+                </div>
+                <div class="success-actions">
+                    <a href="history.html" class="btn btn-outline">View Delivery History</a>
+                    <a href="#" id="track-link" class="btn btn-primary">Track This Delivery</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Sendoo</h3>
+                <p>Fast and reliable package delivery service for all your shipping needs.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/delivery.js"></script>
+    <script src="../js/payment.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            if (!isLoggedIn()) {
+                // Redirect to login page
+                window.location.href = 'login.html?redirect=create-delivery.html';
+                return;
+            }
+            
+            // Multi-step form navigation
+            const formSteps = document.querySelectorAll('.form-step');
+            const progressSteps = document.querySelectorAll('.progress-step');
+            const nextButtons = document.querySelectorAll('.next-step');
+            const prevButtons = document.querySelectorAll('.prev-step');
+            
+            // Initialize Stripe
+            const stripe = Stripe('pk_test_your_stripe_publishable_key');
+            const elements = stripe.elements();
+            
+            // Create card element
+            const style = {
+                base: {
+                    color: '#32325d',
+                    fontFamily: '"Poppins", sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                        color: '#aab7c4'
+                    }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
+            };
+            
+            const card = elements.create('card', { style });
+            
+            // Mount card element
+            card.mount('#card-element');
+            
+            // Handle validation errors
+            card.addEventListener('change', (event) => {
+                const displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+            
+            // Go to next step
+            function goToStep(step) {
+                formSteps.forEach(formStep => {
+                    formStep.classList.remove('active');
+                });
+                
+                progressSteps.forEach(progressStep => {
+                    progressStep.classList.remove('active');
+                });
+                
+                formSteps[step - 1].classList.add('active');
+                
+                // Mark all previous steps and current step as active
+                for (let i = 0; i < step; i++) {
+                    progressSteps[i].classList.add('active');
+                }
+                
+                // Scroll to top of form
+                document.querySelector('.multi-step-form').scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Next button click
+            nextButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentStep = parseInt(this.closest('.form-step').dataset.step);
+                    
+                    // Validate current step
+                    if (validateStep(currentStep)) {
+                        // If going to payment step, update summary
+                        if (currentStep === 3) {
+                            updateSummary();
+                        }
+                        
+                        goToStep(currentStep + 1);
+                    }
+                });
+            });
+            
+            // Previous button click
+            prevButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentStep = parseInt(this.closest('.form-step').dataset.step);
+                    goToStep(currentStep - 1);
+                });
+            });
+            
+            // Validate step
+            function validateStep(step) {
+                const currentStep = document.querySelector(`.form-step[data-step="${step}"]`);
+                const requiredFields = currentStep.querySelectorAll('[required]');
+                
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        isValid = false;
+                        field.classList.add('invalid');
+                        
+                        // Add error message if not exists
+                        let errorMessage = field.nextElementSibling;
+                        if (!errorMessage || !errorMessage.classList.contains('error-message')) {
+                            errorMessage = document.createElement('div');
+                            errorMessage.classList.add('error-message');
+                            errorMessage.textContent = 'This field is required';
+                            field.parentNode.insertBefore(errorMessage, field.nextSibling);
+                        }
+                    } else {
+                        field.classList.remove('invalid');
+                        
+                        // Remove error message if exists
+                        const errorMessage = field.nextElementSibling;
+                        if (errorMessage && errorMessage.classList.contains('error-message')) {
+                            errorMessage.remove();
+                        }
+                    }
+                });
+                
+                return isValid;
+            }
+            
+            // Calculate price estimate
+            function calculatePrice() {
+                const packageType = document.getElementById('package-type').value;
+                const weight = parseFloat(document.getElementById('weight').value) || 0;
+                const vehicleType = document.querySelector('input[name="vehicleType"]:checked')?.value;
+                
+                if (packageType && weight && vehicleType) {
+                    const price = calculatePriceEstimate(packageType, weight, vehicleType);
+                    
+                    // Update price breakdown
+                    let basePrice = 0;
+                    switch (packageType) {
+                        case 'Small': basePrice = 10; break;
+                        case 'Medium': basePrice = 20; break;
+                        case 'Large': basePrice = 35; break;
+                        case 'Extra Large': basePrice = 50; break;
+                    }
+                    
+                    const weightFactor = Math.max(1, weight / 5);
+                    const weightSurcharge = basePrice * (weightFactor - 1);
+                    
+                    let vehicleFactor = 1;
+                    switch (vehicleType) {
+                        case 'Bicycle': vehicleFactor = 0.8; break;
+                        case 'Motorcycle': vehicleFactor = 1; break;
+                        case 'Car': vehicleFactor = 1.2; break;
+                        case 'Van': vehicleFactor = 1.5; break;
+                        case 'Truck': vehicleFactor = 2; break;
+                    }
+                    
+                    const vehicleFee = basePrice * weightFactor * (vehicleFactor - 1);
+                    
+                    document.getElementById('base-price').textContent = `$${basePrice.toFixed(2)}`;
+                    document.getElementById('weight-surcharge').textContent = `$${weightSurcharge.toFixed(2)}`;
+                    document.getElementById('vehicle-fee').textContent = `$${vehicleFee.toFixed(2)}`;
+                    document.getElementById('total-price').textContent = `$${price.toFixed(2)}`;
+                    
+                    return price;
+                }
+                
+                return 0;
+            }
+            
+            // Update price when inputs change
+            document.getElementById('package-type').addEventListener('change', calculatePrice);
+            document.getElementById('weight').addEventListener('input', calculatePrice);
+            document.querySelectorAll('input[name="vehicleType"]').forEach(radio => {
+                radio.addEventListener('change', calculatePrice);
+            });
+            
+            // Update order summary
+            function updateSummary() {
+                const packageType = document.getElementById('package-type').value;
+                const weight = parseFloat(document.getElementById('weight').value) || 0;
+                const length = document.getElementById('length').value;
+                const width = document.getElementById('width').value;
+                const height = document.getElementById('height').value;
+                const pickupCity = document.getElementById('pickup-city').value;
+                const pickupCountry = document.getElementById('pickup-country').value;
+                const deliveryCity = document.getElementById('delivery-city').value;
+                const deliveryCountry = document.getElementById('delivery-country').value;
+                const vehicleType = document.querySelector('input[name="vehicleType"]:checked')?.value;
+                const price = calculatePrice();
+                
+                document.getElementById('summary-package-type').textContent = packageType;
+                document.getElementById('summary-weight').textContent = `${weight} kg`;
+                document.getElementById('summary-dimensions').textContent = `${length} × ${width} × ${height} cm`;
+                document.getElementById('summary-pickup').textContent = `${pickupCity}, ${pickupCountry}`;
+                document.getElementById('summary-delivery').textContent = `${deliveryCity}, ${deliveryCountry}`;
+                document.getElementById('summary-vehicle').textContent = vehicleType;
+                document.getElementById('summary-price').textContent = `$${price.toFixed(2)}`;
+            }
+            
+            // Handle form submission
+            const deliveryForm = document.getElementById('delivery-form');
+            const submitButton = document.getElementById('submit-button');
+            const btnText = submitButton.querySelector('.btn-text');
+            const btnLoader = submitButton.querySelector('.btn-loader');
+            
+            deliveryForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Validate all steps
+                for (let i = 1; i <= 4; i++) {
+                    if (!validateStep(i)) {
+                        goToStep(i);
+                        return;
+                    }
+                }
+                
+                // Show loading state
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'inline-block';
+                submitButton.disabled = true;
+                
+                try {
+                    // Prepare delivery data
+                    const deliveryData = {
+                        packageType: document.getElementById('package-type').value,
+                        weight: parseFloat(document.getElementById('weight').value),
+                        dimensions: {
+                            length: parseFloat(document.getElementById('length').value),
+                            width: parseFloat(document.getElementById('width').value),
+                            height: parseFloat(document.getElementById('height').value)
+                        },
+                        pickupAddress: {
+                            street: document.getElementById('pickup-street').value,
+                            city: document.getElementById('pickup-city').value,
+                            state: document.getElementById('pickup-state').value,
+                            zipCode: document.getElementById('pickup-zip').value,
+                            country: document.getElementById('pickup-country').value
+                        },
+                        deliveryAddress: {
+                            street: document.getElementById('delivery-street').value,
+                            city: document.getElementById('delivery-city').value,
+                            state: document.getElementById('delivery-state').value,
+                            zipCode: document.getElementById('delivery-zip').value,
+                            country: document.getElementById('delivery-country').value
+                        },
+                        recipientName: document.getElementById('recipient-name').value,
+                        recipientPhone: document.getElementById('recipient-phone').value,
+                        recipientEmail: document.getElementById('recipient-email').value || null,
+                        vehicleType: document.querySelector('input[name="vehicleType"]:checked').value,
+                        notes: document.getElementById('notes').value || null
+                    };
+                    
+                    // Create delivery
+                    const delivery = await createDelivery(deliveryData);
+                    
+                    // Create payment intent
+                    const paymentIntent = await createPaymentIntent(delivery._id);
+                    
+                    // Confirm card payment
+                    const result = await stripe.confirmCardPayment(paymentIntent.clientSecret, {
+                        payment_method: {
+                            card: card,
+                            billing_details: {
+                                name: document.getElementById('cardholder-name').value
+                            }
+                        }
+                    });
+                    
+                    if (result.error) {
+                        // Show error message
+                        const errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                        
+                        // Reset button state
+                        btnText.style.display = 'inline-block';
+                        btnLoader.style.display = 'none';
+                        submitButton.disabled = false;
+                    } else {
+                        // Payment succeeded
+                        if (result.paymentIntent.status === 'succeeded') {
+                            // Confirm payment on server
+                            await confirmPayment(
+                                delivery._id,
+                                result.paymentIntent.id,
+                                result.paymentIntent.payment_method
+                            );
+                            
+                            // Show success message
+                            document.querySelector('.multi-step-form form').style.display = 'none';
+                            document.getElementById('payment-success').style.display = 'block';
+                            
+                            // Update tracking number
+                            document.getElementById('tracking-number').textContent = delivery.trackingNumber;
+                            
+                            // Update track link
+                            document.getElementById('track-link').href = `track-delivery.html?tracking=${delivery.trackingNumber}`;
+                            
+                            // Scroll to success message
+                            document.getElementById('payment-success').scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                } catch (error) {
+                    // Show error message
+                    const errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = error.message || 'An error occurred during payment processing.';
+                    
+                    // Reset button state
+                    btnText.style.display = 'inline-block';
+                    btnLoader.style.display = 'none';
+                    submitButton.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

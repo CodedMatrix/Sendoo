@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Create Account</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times:before { content: "✕"; }
+        .fa-rocket:before { content: "🚀"; }
+        .fa-user:before { content: "👤"; }
+        .fa-lock:before { content: "🔒"; }
+        .fa-eye:before { content: "👁️"; }
+        .fa-eye-slash:before { content: "🙈"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+        
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+        
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="login.html" class="btn btn-outline">Login</a>
+            <a href="register.html" class="btn btn-primary active">Sign Up</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <section class="auth-container">
+        <div class="auth-form-container">
+            <h1>Create Your Account</h1>
+            <p class="auth-subtitle">Join Sendoo today and start shipping packages with ease.</p>
+            
+            <div class="alert alert-danger" id="error-message" style="display: none;">
+                <div class="alert-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="alert-content">
+                    <p id="error-text"></p>
+                </div>
+            </div>
+            
+            <form id="register-form" class="auth-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Create a password" required>
+                        <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="password-strength">
+                        <div class="strength-meter">
+                            <div class="strength-bar" id="strength-bar"></div>
+                        </div>
+                        <p class="strength-text" id="strength-text">Password strength</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span class="btn-text">Create Account</span>
+                    <span class="btn-loader" style="display: none;">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                    </span>
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Sendoo</h3>
+                <p>Fast and reliable package delivery service for all your shipping needs.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle password visibility
+            const passwordToggle = document.querySelector('.password-toggle');
+            const passwordInput = document.getElementById('password');
+            
+            passwordToggle.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle eye icon
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+            
+            // Password strength meter
+            const strengthBar = document.getElementById('strength-bar');
+            const strengthText = document.getElementById('strength-text');
+            
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                // Length check
+                if (password.length >= 8) {
+                    strength += 25;
+                }
+                
+                // Uppercase check
+                if (/[A-Z]/.test(password)) {
+                    strength += 25;
+                }
+                
+                // Number check
+                if (/[0-9]/.test(password)) {
+                    strength += 25;
+                }
+                
+                // Special character check
+                if (/[^A-Za-z0-9]/.test(password)) {
+                    strength += 25;
+                }
+                
+                // Update strength bar
+                strengthBar.style.width = strength + '%';
+                
+                // Update strength text
+                if (strength <= 25) {
+                    strengthText.textContent = 'Weak';
+                    strengthBar.style.backgroundColor = '#ff4d4d';
+                } else if (strength <= 50) {
+                    strengthText.textContent = 'Fair';
+                    strengthBar.style.backgroundColor = '#ffa64d';
+                } else if (strength <= 75) {
+                    strengthText.textContent = 'Good';
+                    strengthBar.style.backgroundColor = '#ffff4d';
+                } else {
+                    strengthText.textContent = 'Strong';
+                    strengthBar.style.backgroundColor = '#4dff4d';
+                }
+            });
+            
+            // Handle form submission
+            const registerForm = document.getElementById('register-form');
+            const errorMessage = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const btnText = document.querySelector('.btn-text');
+            const btnLoader = document.querySelector('.btn-loader');
+            
+            registerForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Hide any previous error messages
+                errorMessage.style.display = 'none';
+                
+                // Password confirmation check
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                if (password !== confirmPassword) {
+                    errorText.textContent = 'Passwords do not match';
+                    errorMessage.style.display = 'flex';
+                    return;
+                }
+                
+                // Show loading state
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'inline-block';
+                
+                const userData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    password: password
+                };
+                
+                try {
+                    // Call register function from auth.js
+                    const response = await register(userData);
+                    
+                    // Redirect to verification page
+                    window.location.href = 'verification-sent.html';
+                } catch (error) {
+                    // Show error message
+                    errorText.textContent = error.message;
+                    errorMessage.style.display = 'flex';
+                    
+                    // Reset loading state
+                    btnText.style.display = 'inline-block';
+                    btnLoader.style.display = 'none';
+                }
+            });
+            
+            // Check if user is already logged in
+            if (isLoggedIn()) {
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>

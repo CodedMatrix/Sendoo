@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Offline</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .offline-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .offline-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .offline-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .offline-message {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .cached-content {
+            background-color: var(--bg-light);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .cached-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cached-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .cached-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .cached-list a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius-md);
+            transition: background-color var(--transition-fast);
+        }
+        
+        .cached-list a:hover {
+            background-color: rgba(74, 108, 247, 0.1);
+        }
+        
+        .cached-list i {
+            margin-right: 0.75rem;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pages/create-delivery.html">Send Package</a>
+            <a href="pages/track-delivery.html">Track</a>
+            <a href="pages/history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="pages/login.html" class="btn btn-outline">Login</a>
+            <a href="pages/register.html" class="btn btn-primary">Sign Up</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Offline Content -->
+    <div class="offline-container">
+        <div class="offline-icon">
+            <i class="fas fa-wifi-slash"></i>
+        </div>
+        <h1 class="offline-title">You're Offline</h1>
+        <p class="offline-message">
+            It looks like you're not connected to the internet. Some features may not be available until you're back online.
+        </p>
+        
+        <div class="cached-content">
+            <h2 class="cached-title">Available Offline</h2>
+            <ul class="cached-list" id="cached-pages">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="pages/track-delivery.html"><i class="fas fa-search-location"></i> Track Delivery</a></li>
+            </ul>
+        </div>
+        
+        <button id="retry-button" class="btn btn-primary">
+            <i class="fas fa-sync-alt"></i> Retry Connection
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Sendoo</h3>
+                <p>Fast and reliable package delivery service for all your shipping needs.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pages/create-delivery.html">Send Package</a></li>
+                    <li><a href="pages/track-delivery.html">Track Delivery</a></li>
+                    <li><a href="pages/contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle retry button
+            const retryButton = document.getElementById('retry-button');
+            
+            retryButton.addEventListener('click', function() {
+                // Show loading state
+                retryButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Checking Connection...';
+                retryButton.disabled = true;
+                
+                // Try to fetch the homepage
+                fetch('/')
+                    .then(response => {
+                        if (response.ok) {
+                            // If successful, redirect to homepage
+                            window.location.href = '/';
+                        } else {
+                            throw new Error('Network response was not ok');
+                        }
+                    })
+                    .catch(error => {
+                        // If still offline, reset button
+                        retryButton.innerHTML = '<i class="fas fa-sync-alt"></i> Retry Connection';
+                        retryButton.disabled = false;
+                        
+                        // Show error message
+                        alert('Still offline. Please check your internet connection and try again.');
+                    });
+            });
+            
+            // Check for cached pages
+            if ('caches' in window) {
+                caches.open('sendoo-cache-v1')
+                    .then(cache => {
+                        return cache.keys();
+                    })
+                    .then(requests => {
+                        const cachedPages = document.getElementById('cached-pages');
+                        
+                        // Filter out non-HTML pages
+                        const htmlRequests = requests.filter(request => {
+                            const url = new URL(request.url);
+                            return url.pathname.endsWith('.html') || url.pathname === '/' || url.pathname.endsWith('/');
+                        });
+                        
+                        // Add cached pages to the list
+                        if (htmlRequests.length > 2) { // We already have home and track by default
+                            cachedPages.innerHTML = '';
+                            
+                            htmlRequests.forEach(request => {
+                                const url = new URL(request.url);
+                                let path = url.pathname;
+                                
+                                // Skip service worker and offline page
+                                if (path.includes('service-worker.js') || path.includes('offline.html')) {
+                                    return;
+                                }
+                                
+                                // Format the path for display
+                                if (path === '/' || path.endsWith('/index.html')) {
+                                    path = '/index.html';
+                                    title = 'Home';
+                                    icon = 'fa-home';
+                                } else {
+                                    // Extract page name from path
+                                    const pageName = path.split('/').pop().replace('.html', '');
+                                    title = pageName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                                    
+                                    // Determine icon based on page name
+                                    if (pageName.includes('track')) {
+                                        icon = 'fa-search-location';
+                                    } else if (pageName.includes('delivery')) {
+                                        icon = 'fa-box';
+                                    } else if (pageName.includes('profile')) {
+                                        icon = 'fa-user';
+                                    } else if (pageName.includes('history')) {
+                                        icon = 'fa-history';
+                                    } else if (pageName.includes('settings')) {
+                                        icon = 'fa-cog';
+                                    } else if (pageName.includes('login')) {
+                                        icon = 'fa-sign-in-alt';
+                                    } else if (pageName.includes('register')) {
+                                        icon = 'fa-user-plus';
+                                    } else {
+                                        icon = 'fa-file';
+                                    }
+                                }
+                                
+                                // Create list item
+                                const li = document.createElement('li');
+                                li.innerHTML = `<a href="${path}"><i class="fas ${icon}"></i> ${title}</a>`;
+                                cachedPages.appendChild(li);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking cached pages:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

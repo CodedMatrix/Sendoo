@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times:before { content: "✕"; }
+        .fa-rocket:before { content: "🚀"; }
+        .fa-user:before { content: "👤"; }
+        .fa-lock:before { content: "🔒"; }
+        .fa-eye:before { content: "👁️"; }
+        .fa-eye-slash:before { content: "🙈"; }
+        .fa-history:before { content: "🕒"; }
+        .fa-cog:before { content: "⚙️"; }
+        .fa-sign-out-alt:before { content: "🚪"; }
+        .fa-tachometer-alt:before { content: "🏁"; }
+        .fa-plus:before { content: "➕"; }
+        .fa-chart-line:before { content: "📈"; }
+        .fa-bell:before { content: "🔔"; }
+        .fa-calendar:before { content: "📅"; }
+        .fa-clock:before { content: "⏰"; }
+        .fa-dollar-sign:before { content: "💲"; }
+        .fa-file-invoice:before { content: "📄"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+        
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+        
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+    <style>
+        /* Dashboard specific styles */
+        .dashboard-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-title {
+            margin-bottom: 0;
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .stat-card {
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-icon.primary {
+            background-color: rgba(74, 108, 247, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .stat-icon.success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .stat-icon.warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #856404;
+        }
+        
+        .stat-icon.info {
+            background-color: rgba(23, 162, 184, 0.1);
+            color: var(--info-color);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+        
+        .stat-change {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        .stat-change.positive {
+            color: var(--success-color);
+        }
+        
+        .stat-change.negative {
+            color: var(--danger-color);
+        }
+        
+        .dashboard-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .dashboard-section {
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            margin-bottom: 0;
+            font-size: 1.25rem;
+        }
+        
+        .section-action {
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .delivery-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .delivery-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--bg-light);
+            border-radius: var(--border-radius-md);
+            transition: transform var(--transition-fast);
+        }
+        
+        .delivery-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .delivery-info {
+            flex: 1;
+        }
+        
+        .delivery-tracking {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .delivery-recipient {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .delivery-date {
+            color: var(--text-lighter);
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .delivery-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-time {
+            color: var(--text-lighter);
+            font-size: 0.75rem;
+        }
+        
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .notification-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem;
+            background-color: var(--bg-light);
+            border-radius: var(--border-radius-md);
+            transition: background-color var(--transition-fast);
+        }
+        
+        .notification-item.unread {
+            background-color: rgba(74, 108, 247, 0.05);
+        }
+        
+        .notification-item:hover {
+            background-color: rgba(74, 108, 247, 0.1);
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-text {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-time {
+            color: var(--text-lighter);
+            font-size: 0.75rem;
+        }
+        
+        .notification-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        
+        @media (max-width: 992px) {
+            .dashboard-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .dashboard-actions {
+                width: 100%;
+            }
+            
+            .dashboard-actions .btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <!-- Will be populated by auth.js -->
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard</h1>
+            <div class="dashboard-actions">
+                <a href="create-delivery.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Delivery
+                </a>
+                <a href="track-delivery.html" class="btn btn-outline">
+                    <i class="fas fa-search-location"></i> Track
+                </a>
+            </div>
+        </div>
+        
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon primary">
+                        <i class="fas fa-box"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="total-deliveries">0</div>
+                <div class="stat-label">Total Deliveries</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> <span id="deliveries-change">0%</span> from last month
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="completed-deliveries">0</div>
+                <div class="stat-label">Completed Deliveries</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> <span id="completed-change">0%</span> from last month
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon info">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="active-deliveries">0</div>
+                <div class="stat-label">Active Deliveries</div>
+                <div class="stat-change" id="active-change-container">
+                    <i class="fas fa-arrow-right"></i> <span id="active-change">0%</span> from last month
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon warning">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="total-spent">$0</div>
+                <div class="stat-label">Total Spent</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> <span id="spent-change">0%</span> from last month
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-sections">
+            <div>
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Deliveries</h2>
+                        <a href="history.html" class="section-action">View All</a>
+                    </div>
+                    
+                    <div class="delivery-list" id="recent-deliveries">
+                        <!-- Will be populated by JavaScript -->
+                        <div class="loading-indicator">
+                            <i class="fas fa-circle-notch fa-spin"></i> Loading deliveries...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Activity</h2>
+                    </div>
+                    
+                    <div class="activity-list" id="recent-activity">
+                        <!-- Will be populated by JavaScript -->
+                        <div class="loading-indicator">
+                            <i class="fas fa-circle-notch fa-spin"></i> Loading activity...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Notifications</h2>
+                        <a href="#" class="section-action" id="mark-all-read">Mark All Read</a>
+                    </div>
+                    
+                    <div class="notification-list" id="notifications">
+                        <!-- Will be populated by JavaScript -->
+                        <div class="loading-indicator">
+                            <i class="fas fa-circle-notch fa-spin"></i> Loading notifications...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Quick Actions</h2>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <a href="create-delivery.html" class="btn btn-outline btn-block mb-2">
+                            <i class="fas fa-box"></i> Create New Delivery
+                        </a>
+                        <a href="track-delivery.html" class="btn btn-outline btn-block mb-2">
+                            <i class="fas fa-search-location"></i> Track a Package
+                        </a>
+                        <a href="profile.html" class="btn btn-outline btn-block mb-2">
+                            <i class="fas fa-user"></i> Update Profile
+                        </a>
+                        <a href="settings.html" class="btn btn-outline btn-block">
+                            <i class="fas fa-cog"></i> Account Settings
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Sendoo</h3>
+                <p>Fast and reliable package delivery service for all your shipping needs.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/delivery.js"></script>
+    <script src="../js/socket.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if user is logged in
+            if (!isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Load dashboard data
+            try {
+                await loadDashboardData();
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showToast('Failed to load dashboard data. Please try again.', 'error');
+            }
+            
+            // Mark all notifications as read
+            document.getElementById('mark-all-read').addEventListener('click', function(e) {
+                e.preventDefault();
+                markAllNotificationsAsRead();
+            });
+        });
+        
+        // Load dashboard data
+        async function loadDashboardData() {
+            // Load deliveries
+            const deliveries = await getDeliveries();
+            
+            // Update stats
+            updateDeliveryStats(deliveries);
+            
+            // Update recent deliveries
+            updateRecentDeliveries(deliveries);
+            
+            // Load activity and notifications (mock data for now)
+            updateRecentActivity();
+            updateNotifications();
+        }
+        
+        // Update delivery statistics
+        function updateDeliveryStats(deliveries) {
+            // Calculate stats
+            const totalDeliveries = deliveries.length;
+            const completedDeliveries = deliveries.filter(d => d.status === 'Delivered').length;
+            const activeDeliveries = deliveries.filter(d => ['Pending', 'Confirmed', 'Picked Up', 'In Transit'].includes(d.status)).length;
+            
+            // Calculate total spent
+            const totalSpent = deliveries.reduce((sum, delivery) => {
+                return sum + (delivery.paymentStatus === 'Paid' ? delivery.price : 0);
+            }, 0);
+            
+            // Update DOM
+            document.getElementById('total-deliveries').textContent = totalDeliveries;
+            document.getElementById('completed-deliveries').textContent = completedDeliveries;
+            document.getElementById('active-deliveries').textContent = activeDeliveries;
+            document.getElementById('total-spent').textContent = '$' + totalSpent.toFixed(2);
+            
+            // Mock change percentages (would be calculated from historical data in a real app)
+            document.getElementById('deliveries-change').textContent = '12%';
+            document.getElementById('completed-change').textContent = '8%';
+            document.getElementById('spent-change').textContent = '15%';
+            
+            // Active deliveries change could be positive or negative
+            const activeChange = Math.floor(Math.random() * 20) - 10; // Random between -10 and 10
+            const activeChangeElement = document.getElementById('active-change');
+            const activeChangeContainer = document.getElementById('active-change-container');
+            
+            activeChangeElement.textContent = Math.abs(activeChange) + '%';
+            
+            if (activeChange > 0) {
+                activeChangeContainer.classList.add('positive');
+                activeChangeContainer.classList.remove('negative');
+                activeChangeContainer.querySelector('i').className = 'fas fa-arrow-up';
+            } else if (activeChange < 0) {
+                activeChangeContainer.classList.add('negative');
+                activeChangeContainer.classList.remove('positive');
+                activeChangeContainer.querySelector('i').className = 'fas fa-arrow-down';
+            } else {
+                activeChangeContainer.classList.remove('positive', 'negative');
+                activeChangeContainer.querySelector('i').className = 'fas fa-arrow-right';
+            }
+        }
+        
+        // Update recent deliveries
+        function updateRecentDeliveries(deliveries) {
+            const container = document.getElementById('recent-deliveries');
+            container.innerHTML = '';
+            
+            // Sort by creation date (newest first)
+            const sortedDeliveries = [...deliveries].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            // Take only the 5 most recent
+            const recentDeliveries = sortedDeliveries.slice(0, 5);
+            
+            if (recentDeliveries.length === 0) {
+                container.innerHTML = '<p>No deliveries found. <a href="create-delivery.html">Create your first delivery</a>.</p>';
+                return;
+            }
+            
+            // Create delivery items
+            recentDeliveries.forEach(delivery => {
+                const deliveryItem = document.createElement('div');
+                deliveryItem.className = 'delivery-item';
+                deliveryItem.innerHTML = `
+                    <div class="delivery-info">
+                        <div class="delivery-tracking">${delivery.trackingNumber}</div>
+                        <div class="delivery-recipient">To: ${delivery.recipientName}</div>
+                        <div class="delivery-date">
+                            <i class="fas fa-calendar"></i> ${formatDate(delivery.createdAt)}
+                        </div>
+                    </div>
+                    <div class="delivery-status">
+                        ${formatDeliveryStatus(delivery.status)}
+                    </div>
+                    <div class="delivery-actions">
+                        <a href="delivery-details.html?id=${delivery._id}" class="btn btn-sm btn-outline">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="track-delivery.html?tracking=${delivery.trackingNumber}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-search-location"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(deliveryItem);
+            });
+        }
+        
+        // Update recent activity (mock data)
+        function updateRecentActivity() {
+            const container = document.getElementById('recent-activity');
+            container.innerHTML = '';
+            
+            // Mock activity data
+            const activities = [
+                {
+                    type: 'delivery_created',
+                    title: 'New Delivery Created',
+                    time: '2 hours ago',
+                    icon: 'fa-box',
+                    iconClass: 'primary'
+                },
+                {
+                    type: 'payment_completed',
+                    title: 'Payment Completed',
+                    time: '5 hours ago',
+                    icon: 'fa-credit-card',
+                    iconClass: 'success'
+                },
+                {
+                    type: 'delivery_status',
+                    title: 'Delivery Status Updated',
+                    time: '1 day ago',
+                    icon: 'fa-truck',
+                    iconClass: 'info'
+                },
+                {
+                    type: 'profile_updated',
+                    title: 'Profile Information Updated',
+                    time: '3 days ago',
+                    icon: 'fa-user',
+                    iconClass: 'warning'
+                }
+            ];
+            
+            // Create activity items
+            activities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon ${activity.iconClass}">
+                        <i class="fas ${activity.icon}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                `;
+                container.appendChild(activityItem);
+            });
+        }
+        
+        // Update notifications (mock data)
+        function updateNotifications() {
+            const container = document.getElementById('notifications');
+            container.innerHTML = '';
+            
+            // Mock notification data
+            const notifications = [
+                {
+                    title: 'Delivery Status Update',
+                    text: 'Your package SD-123456 has been picked up.',
+                    time: '30 minutes ago',
+                    icon: 'fa-truck',
+                    iconClass: 'info',
+                    unread: true
+                },
+                {
+                    title: 'Payment Confirmation',
+                    text: 'Payment of $45.50 has been processed successfully.',
+                    time: '2 hours ago',
+                    icon: 'fa-credit-card',
+                    iconClass: 'success',
+                    unread: true
+                },
+                {
+                    title: 'New Feature Available',
+                    text: 'Try our new real-time tracking feature!',
+                    time: '1 day ago',
+                    icon: 'fa-bell',
+                    iconClass: 'primary',
+                    unread: false
+                },
+                {
+                    title: 'Account Security',
+                    text: 'We recommend updating your password regularly.',
+                    time: '3 days ago',
+                    icon: 'fa-lock',
+                    iconClass: 'warning',
+                    unread: false
+                }
+            ];
+            
+            // Create notification items
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `notification-item${notification.unread ? ' unread' : ''}`;
+                notificationItem.innerHTML = `
+                    <div class="notification-icon ${notification.iconClass}">
+                        <i class="fas ${notification.icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-text">${notification.text}</div>
+                        <div class="notification-time">${notification.time}</div>
+                    </div>
+                    ${notification.unread ? '<div class="notification-dot"></div>' : ''}
+                `;
+                container.appendChild(notificationItem);
+                
+                // Add click event to mark as read
+                notificationItem.addEventListener('click', function() {
+                    if (notification.unread) {
+                        notification.unread = false;
+                        notificationItem.classList.remove('unread');
+                        notificationItem.querySelector('.notification-dot')?.remove();
+                    }
+                });
+            });
+        }
+        
+        // Mark all notifications as read
+        function markAllNotificationsAsRead() {
+            const unreadNotifications = document.querySelectorAll('.notification-item.unread');
+            unreadNotifications.forEach(item => {
+                item.classList.remove('unread');
+                item.querySelector('.notification-dot')?.remove();
+            });
+            
+            showToast('All notifications marked as read', 'success');
+        }
+    </script>
+</body>
+</html>

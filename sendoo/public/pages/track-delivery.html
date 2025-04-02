@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Track Your Delivery</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times-circle:before { content: "❌"; }
+        .fa-spinner:before { content: "🔄"; }
+        .fa-search:before { content: "🔍"; }
+        .fa-clock:before { content: "🕒"; }
+        .fa-calendar:before { content: "📅"; }
+        .fa-box-open:before { content: "📦"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+        
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+        
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html" class="active">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <!-- Will be populated by auth.js -->
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Track Delivery Section -->
+    <section class="track-container">
+        <div class="track-header">
+            <h1>Track Your Delivery</h1>
+            <p>Enter your tracking number to get real-time updates on your package.</p>
+        </div>
+        
+        <div class="track-form-container">
+            <form id="track-form" class="track-form">
+                <div class="input-with-icon">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="tracking-number" name="tracking-number" placeholder="Enter tracking number (e.g., SD-123456-7890)" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-text">Track Package</span>
+                    <span class="btn-loader" style="display: none;">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                    </span>
+                </button>
+            </form>
+        </div>
+        
+        <!-- Tracking Results (initially hidden) -->
+        <div id="tracking-results" class="tracking-results" style="display: none;">
+            <div class="tracking-header">
+                <h2>Tracking Information</h2>
+                <p id="tracking-number-display"></p>
+            </div>
+            
+            <div class="tracking-status">
+                <div class="status-badge" id="status-badge"></div>
+                <div class="estimated-delivery">
+                    <i class="fas fa-calendar"></i>
+                    <span>Estimated Delivery:</span>
+                    <span id="estimated-delivery-date"></span>
+                </div>
+            </div>
+            
+            <div class="tracking-timeline">
+                <div class="timeline-item" id="timeline-ordered">
+                    <div class="timeline-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Order Placed</h3>
+                        <p id="ordered-date"></p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" id="timeline-confirmed">
+                    <div class="timeline-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Confirmed</h3>
+                        <p>Your package has been confirmed and is being prepared for pickup.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" id="timeline-pickup">
+                    <div class="timeline-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Picked Up</h3>
+                        <p>Your package has been picked up by our delivery partner.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" id="timeline-transit">
+                    <div class="timeline-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>In Transit</h3>
+                        <p>Your package is on its way to the destination.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" id="timeline-delivered">
+                    <div class="timeline-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Delivered</h3>
+                        <p>Your package has been delivered successfully.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tracking-details">
+                <h3>Package Details</h3>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Package Type:</span>
+                        <span class="detail-value" id="package-type"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Order Date:</span>
+                        <span class="detail-value" id="order-date"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Last Updated:</span>
+                        <span class="detail-value" id="last-updated"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Error Message (initially hidden) -->
+        <div id="tracking-error" class="alert alert-danger" style="display: none;">
+            <div class="alert-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="alert-content">
+                <p id="error-text"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Sendoo</h3>
+                <p>Fast and reliable package delivery service for all your shipping needs.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/delivery.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const trackForm = document.getElementById('track-form');
+            const trackingResults = document.getElementById('tracking-results');
+            const trackingError = document.getElementById('tracking-error');
+            const errorText = document.getElementById('error-text');
+            const btnText = document.querySelector('.btn-text');
+            const btnLoader = document.querySelector('.btn-loader');
+            
+            // Format date for display
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                return new Date(dateString).toLocaleDateString('en-US', options);
+            }
+            
+            // Update timeline based on status
+            function updateTimeline(status) {
+                // Reset all timeline items
+                document.querySelectorAll('.timeline-item').forEach(item => {
+                    item.classList.remove('active', 'completed');
+                });
+                
+                // Set appropriate classes based on status
+                switch (status) {
+                    case 'Pending':
+                        document.getElementById('timeline-ordered').classList.add('active');
+                        break;
+                    case 'Confirmed':
+                        document.getElementById('timeline-ordered').classList.add('completed');
+                        document.getElementById('timeline-confirmed').classList.add('active');
+                        break;
+                    case 'Picked Up':
+                        document.getElementById('timeline-ordered').classList.add('completed');
+                        document.getElementById('timeline-confirmed').classList.add('completed');
+                        document.getElementById('timeline-pickup').classList.add('active');
+                        break;
+                    case 'In Transit':
+                        document.getElementById('timeline-ordered').classList.add('completed');
+                        document.getElementById('timeline-confirmed').classList.add('completed');
+                        document.getElementById('timeline-pickup').classList.add('completed');
+                        document.getElementById('timeline-transit').classList.add('active');
+                        break;
+                    case 'Delivered':
+                        document.getElementById('timeline-ordered').classList.add('completed');
+                        document.getElementById('timeline-confirmed').classList.add('completed');
+                        document.getElementById('timeline-pickup').classList.add('completed');
+                        document.getElementById('timeline-transit').classList.add('completed');
+                        document.getElementById('timeline-delivered').classList.add('active');
+                        break;
+                    case 'Cancelled':
+                        document.getElementById('timeline-ordered').classList.add('completed');
+                        // Add cancelled class to timeline
+                        document.querySelector('.tracking-timeline').classList.add('cancelled');
+                        break;
+                }
+            }
+            
+            // Handle form submission
+            trackForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Hide any previous results or errors
+                trackingResults.style.display = 'none';
+                trackingError.style.display = 'none';
+                
+                // Show loading state
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'inline-block';
+                
+                const trackingNumber = document.getElementById('tracking-number').value.trim();
+                
+                try {
+                    // Call track delivery function
+                    const trackingInfo = await trackDelivery(trackingNumber);
+                    
+                    // Update tracking results
+                    document.getElementById('tracking-number-display').textContent = `Tracking Number: ${trackingInfo.trackingNumber}`;
+                    
+                    // Update status badge
+                    const statusBadge = document.getElementById('status-badge');
+                    statusBadge.textContent = trackingInfo.status;
+                    statusBadge.className = 'status-badge'; // Reset classes
+                    statusBadge.classList.add(`status-${trackingInfo.status.toLowerCase().replace(' ', '-')}`);
+                    
+                    // Update estimated delivery date
+                    document.getElementById('estimated-delivery-date').textContent = trackingInfo.estimatedDeliveryTime 
+                        ? formatDate(trackingInfo.estimatedDeliveryTime)
+                        : 'Not available';
+                    
+                    // Update package details
+                    document.getElementById('package-type').textContent = trackingInfo.packageType;
+                    document.getElementById('order-date').textContent = formatDate(trackingInfo.createdAt);
+                    document.getElementById('last-updated').textContent = formatDate(trackingInfo.updatedAt);
+                    
+                    // Update ordered date
+                    document.getElementById('ordered-date').textContent = formatDate(trackingInfo.createdAt);
+                    
+                    // Update timeline
+                    updateTimeline(trackingInfo.status);
+                    
+                    // Show tracking results
+                    trackingResults.style.display = 'block';
+                    
+                    // Scroll to results
+                    trackingResults.scrollIntoView({ behavior: 'smooth' });
+                } catch (error) {
+                    // Show error message
+                    errorText.textContent = error.message || 'Failed to track delivery. Please check the tracking number and try again.';
+                    trackingError.style.display = 'flex';
+                }
+                
+                // Reset loading state
+                btnText.style.display = 'inline-block';
+                btnLoader.style.display = 'none';
+            });
+            
+            // Check if tracking number is in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const trackingNumber = urlParams.get('tracking');
+            
+            if (trackingNumber) {
+                document.getElementById('tracking-number').value = trackingNumber;
+                trackForm.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

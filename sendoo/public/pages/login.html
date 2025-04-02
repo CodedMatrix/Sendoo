@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Login</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times:before { content: "✕"; }
+        .fa-rocket:before { content: "🚀"; }
+        .fa-user:before { content: "👤"; }
+        .fa-lock:before { content: "🔒"; }
+        .fa-eye:before { content: "👁️"; }
+        .fa-eye-slash:before { content: "🙈"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+        
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+        
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="login.html" class="btn btn-outline active">Login</a>
+            <a href="register.html" class="btn btn-primary">Sign Up</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <section class="auth-container">
+        <div class="auth-form-container">
+            <h1>Login to Your Account</h1>
+            <p class="auth-subtitle">Welcome back! Please enter your credentials to continue.</p>
+            
+            <div class="alert alert-danger" id="error-message" style="display: none;">
+                <div class="alert-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="alert-content">
+                    <p id="error-text"></p>
+                </div>
+            </div>
+            
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span class="btn-text">Login</span>
+                    <span class="btn-loader" style="display: none;">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                    </span>
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="register.html">Sign up</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Sendoo</h3>
+                <p>Fast and reliable package delivery service for all your shipping needs.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle password visibility
+            const passwordToggle = document.querySelector('.password-toggle');
+            const passwordInput = document.getElementById('password');
+            
+            passwordToggle.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle eye icon
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+            
+            // Handle form submission
+            const loginForm = document.getElementById('login-form');
+            const errorMessage = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const btnText = document.querySelector('.btn-text');
+            const btnLoader = document.querySelector('.btn-loader');
+            
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Hide any previous error messages
+                errorMessage.style.display = 'none';
+                
+                // Show loading state
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'inline-block';
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                try {
+                    // Call login function from auth.js
+                    const response = await login(email, password);
+                    
+                    // Redirect to home page or dashboard
+                    window.location.href = '../index.html';
+                } catch (error) {
+                    // Show error message
+                    errorText.textContent = error.message;
+                    errorMessage.style.display = 'flex';
+                    
+                    // Reset loading state
+                    btnText.style.display = 'inline-block';
+                    btnLoader.style.display = 'none';
+                }
+            });
+            
+            // Check if user is already logged in
+            if (isLoggedIn()) {
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>

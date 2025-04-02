@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Account Settings</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times:before { content: "✕"; }
+        .fa-rocket:before { content: "🚀"; }
+        .fa-user:before { content: "👤"; }
+        .fa-history:before { content: "🕒"; }
+        .fa-cog:before { content: "⚙️"; }
+        .fa-sign-out-alt:before { content: "🚪"; }
+        .fa-camera:before { content: "📷"; }
+        .fa-edit:before { content: "✏️"; }
+        .fa-save:before { content: "💾"; }
+        .fa-lock:before { content: "🔒"; }
+        .fa-key:before { content: "🔑"; }
+        .fa-eye:before { content: "👁️"; }
+        .fa-bell:before { content: "🔔"; }
+        .fa-info-circle:before { content: "ℹ️"; }
+        .fa-exclamation-triangle:before { content: "⚠️"; }
+        .fa-trash:before { content: "🗑️"; }
+        .fa-pause:before { content: "⏸️"; }
+        .fa-plus:before { content: "➕"; }
+        .fa-cc-visa:before { content: "💳"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="user-menu">
+            <i class="fas fa-user-circle"></i>
+            <span>John Doe</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Settings Section -->
+    <section class="profile-container">
+        <div class="page-header">
+            <h1>Account Settings</h1>
+            <p>Manage your account preferences and security</p>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="profile-avatar">
+                    <div class="avatar-image">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>John Doe</h3>
+                    <p>Member since January 2025</p>
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-camera"></i> Change Photo
+                    </button>
+                </div>
+                <div class="profile-menu">
+                    <a href="profile.html">
+                        <i class="fas fa-user"></i> Personal Information
+                    </a>
+                    <a href="history.html">
+                        <i class="fas fa-history"></i> Delivery History
+                    </a>
+                    <a href="settings.html" class="active">
+                        <i class="fas fa-cog"></i> Account Settings
+                    </a>
+                    <a href="#" class="logout-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+
+            <div class="profile-details">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-lock"></i> Password & Security</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="passwordForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="currentPassword"><i class="fas fa-key"></i> Current Password</label>
+                                <div class="input-icon">
+                                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter your current password">
+                                    <i class="fas fa-key"></i>
+                                    <i class="fas fa-eye toggle-password"></i>
+                                </div>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword"><i class="fas fa-lock"></i> New Password</label>
+                                <div class="input-icon">
+                                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter your new password">
+                                    <i class="fas fa-lock"></i>
+                                    <i class="fas fa-eye toggle-password"></i>
+                                </div>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword"><i class="fas fa-lock"></i> Confirm New Password</label>
+                                <div class="input-icon">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password">
+                                    <i class="fas fa-lock"></i>
+                                    <i class="fas fa-eye toggle-password"></i>
+                                </div>
+                                <div class="error-message"></div>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <div class="alert-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h4>Password Requirements</h4>
+                                    <p>Use at least 8 characters with a mix of letters, numbers, and symbols for a strong password.</p>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Update Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bell"></i> Notification Preferences</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="notificationForm" class="settings-form">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="emailNotifications" name="emailNotifications" checked>
+                                <label for="emailNotifications">Email Notifications</label>
+                            </div>
+                            <p class="form-help">Receive updates about your deliveries via email</p>
+
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="smsNotifications" name="smsNotifications" checked>
+                                <label for="smsNotifications">SMS Notifications</label>
+                            </div>
+                            <p class="form-help">Receive text messages about your deliveries</p>
+
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="marketingEmails" name="marketingEmails">
+                                <label for="marketingEmails">Marketing Emails</label>
+                            </div>
+                            <p class="form-help">Receive promotional offers and news from Sendoo</p>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save Preferences
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-credit-card"></i> Payment Methods</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="payment-methods">
+                            <div class="payment-method">
+                                <div class="payment-icon">
+                                    <i class="fab fa-cc-visa"></i>
+                                </div>
+                                <div class="payment-details">
+                                    <h4>Visa ending in 4242</h4>
+                                    <p>Expires 12/2025</p>
+                                </div>
+                                <div class="payment-actions">
+                                    <button class="btn btn-outline btn-sm">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-outline add-payment-btn">
+                                <i class="fas fa-plus"></i> Add Payment Method
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card danger-zone">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Account Management</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="account-actions">
+                            <div class="account-action">
+                                <div class="action-details">
+                                    <h4>Deactivate Account</h4>
+                                    <p>Temporarily disable your account. You can reactivate it anytime by logging in.</p>
+                                </div>
+                                <button class="btn btn-outline btn-warning">
+                                    <i class="fas fa-pause"></i> Deactivate
+                                </button>
+                            </div>
+                            <div class="account-action">
+                                <div class="action-details">
+                                    <h4>Delete Account</h4>
+                                    <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+                                </div>
+                                <button class="btn btn-outline btn-danger">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sendoo</h3>
+                <p>Fast, reliable package delivery for everyone.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="history.html">Delivery History</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/settings.js"></script>
+</body>
+</html>

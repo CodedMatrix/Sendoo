@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Fast Package Delivery Service</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times:before { content: "✕"; }
+        .fa-rocket:before { content: "🚀"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="user-menu">
+            <i class="fas fa-user-circle"></i>
+            <span>John Doe</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Fast and Reliable Package Delivery</h1>
+            <p>Send packages of any size anywhere with just a few clicks</p>
+            <div class="hero-buttons">
+                <a href="create-delivery.html" class="btn btn-primary btn-large">
+                    <i class="fas fa-box"></i> Send a Package
+                </a>
+                <a href="track-delivery.html" class="btn btn-secondary btn-large">
+                    <i class="fas fa-search-location"></i> Track Package
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="placeholder-image">
+                <div class="path-dots">
+                    <div class="path-dot"></div>
+                    <div class="path-dot"></div>
+                    <div class="path-dot"></div>
+                    <div class="path-dot"></div>
+                    <div class="path-dot"></div>
+                    <div class="path-dot"></div>
+                </div>
+                <div class="route-path"></div>
+                <div class="delivery-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="delivery-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="delivery-text">
+                    <h2>Sendoo Express</h2>
+                    <p>Fast, reliable delivery to your doorstep, whenever you need it</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <h2>How Sendoo Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h3>1. Choose Package Type</h3>
+                <p>Tell us what you're sending and how big it is</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>2. Set Locations</h3>
+                <p>Enter pickup and delivery addresses</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>3. Select Vehicle</h3>
+                <p>Choose bike, car, or truck based on your needs</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h3>4. Pay Securely</h3>
+                <p>Complete payment and wait for pickup</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vehicle Options Section -->
+    <section class="vehicle-options">
+        <h2>Choose the Right Vehicle for Your Package</h2>
+        <div class="vehicles">
+            <div class="vehicle-card">
+                <div class="vehicle-icon">
+                    <i class="fas fa-bicycle"></i>
+                </div>
+                <h3>Bike Delivery</h3>
+                <p>Small packages, fast delivery, eco-friendly</p>
+                <p class="vehicle-details">Up to 5kg • City areas • Fastest option</p>
+            </div>
+            <div class="vehicle-card">
+                <div class="vehicle-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>Car Delivery</h3>
+                <p>Medium packages, balanced speed and capacity</p>
+                <p class="vehicle-details">Up to 20kg • Wider range • Good value</p>
+            </div>
+            <div class="vehicle-card">
+                <div class="vehicle-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>Truck Delivery</h3>
+                <p>Large packages, furniture, and bulky items</p>
+                <p class="vehicle-details">20kg+ • Any location • Most capacity</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Sendoo made shipping my products so much easier. The delivery was fast and the driver was very professional."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="../images/testimonial-1.jpg" alt="Customer Photo">
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Small Business Owner</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"I needed to send a large package across town urgently. Sendoo had it delivered within 2 hours. Incredible service!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="../images/testimonial-2.jpg" alt="Customer Photo">
+                    <div class="author-info">
+                        <h4>Michael Chen</h4>
+                        <p>Freelance Designer</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="cta-content">
+            <h2>Ready to Send Your Package?</h2>
+            <p>Join thousands of satisfied customers who trust Sendoo</p>
+            <a href="create-delivery.html" class="btn btn-primary btn-large">
+                <i class="fas fa-rocket"></i> Send a Package Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sendoo</h3>
+                <p>Fast, reliable package delivery for everyone.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="history.html">Delivery History</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/image-fallback.js"></script>
+</body>
+</html>

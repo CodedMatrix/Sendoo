@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Verification Email Sent</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times:before { content: "✕"; }
+        .fa-rocket:before { content: "🚀"; }
+        .fa-envelope-open-text:before { content: "📬"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+        
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+        
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="login.html" class="btn btn-outline">Login</a>
+            <a href="register.html" class="btn btn-primary">Sign Up</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Verification Sent Message -->
+    <section class="auth-container">
+        <div class="auth-form-container text-center">
+            <div class="verification-icon">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <h1>Verification Email Sent</h1>
+            <p class="auth-subtitle">We've sent a verification email to your inbox. Please check your email and click the verification link to activate your account.</p>
+            
+            <div class="verification-info">
+                <p>If you don't see the email in your inbox, please check your spam folder.</p>
+                <p>The verification link will expire in 24 hours.</p>
+            </div>
+            
+            <div class="verification-actions">
+                <button id="resend-btn" class="btn btn-outline">
+                    <span class="btn-text">Resend Verification Email</span>
+                    <span class="btn-loader" style="display: none;">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                    </span>
+                </button>
+                <a href="login.html" class="btn btn-primary">Go to Login</a>
+            </div>
+            
+            <div class="alert alert-success" id="resend-success" style="display: none;">
+                <div class="alert-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="alert-content">
+                    <p>Verification email has been resent successfully!</p>
+                </div>
+            </div>
+            
+            <div class="alert alert-danger" id="resend-error" style="display: none;">
+                <div class="alert-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="alert-content">
+                    <p id="error-text"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Sendoo</h3>
+                <p>Fast and reliable package delivery service for all your shipping needs.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resendBtn = document.getElementById('resend-btn');
+            const btnText = resendBtn.querySelector('.btn-text');
+            const btnLoader = resendBtn.querySelector('.btn-loader');
+            const resendSuccess = document.getElementById('resend-success');
+            const resendError = document.getElementById('resend-error');
+            const errorText = document.getElementById('error-text');
+            
+            // Get email from localStorage or URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email') || localStorage.getItem('registration_email');
+            
+            if (!email) {
+                // If no email is found, redirect to registration page
+                window.location.href = 'register.html';
+            }
+            
+            // Handle resend verification email
+            resendBtn.addEventListener('click', async function() {
+                // Hide any previous messages
+                resendSuccess.style.display = 'none';
+                resendError.style.display = 'none';
+                
+                // Show loading state
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'inline-block';
+                
+                try {
+                    // Call resend verification function
+                    await fetch(`${API_URL}/auth/resend-verification`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    // Show success message
+                    resendSuccess.style.display = 'flex';
+                    
+                    // Reset button state
+                    btnText.style.display = 'inline-block';
+                    btnLoader.style.display = 'none';
+                    
+                    // Disable button for 60 seconds to prevent spam
+                    resendBtn.disabled = true;
+                    let countdown = 60;
+                    
+                    const countdownInterval = setInterval(() => {
+                        countdown--;
+                        btnText.textContent = `Resend in ${countdown}s`;
+                        
+                        if (countdown <= 0) {
+                            clearInterval(countdownInterval);
+                            btnText.textContent = 'Resend Verification Email';
+                            resendBtn.disabled = false;
+                        }
+                    }, 1000);
+                } catch (error) {
+                    // Show error message
+                    errorText.textContent = error.message || 'Failed to resend verification email';
+                    resendError.style.display = 'flex';
+                    
+                    // Reset button state
+                    btnText.style.display = 'inline-block';
+                    btnLoader.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

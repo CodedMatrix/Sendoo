@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Create Delivery</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="create-delivery.html" class="active">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="#" class="user-menu">
+                <i class="fas fa-user-circle"></i>
+                <span>John Doe</span>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Create Delivery Section -->
+    <section class="delivery-container">
+        <div class="page-header">
+            <h1>Create a New Delivery</h1>
+            <p>Fill in the details to send your package</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar">
+                <div class="progress-step active">
+                    <div class="step-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <span class="step-text">Package</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <span class="step-text">Locations</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <span class="step-text">Vehicle</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <span class="step-text">Payment</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multi-step form -->
+        <div class="delivery-form-container">
+            <!-- Step 1: Package Details -->
+            <div class="form-step active" id="step1">
+                <h2>Package Details</h2>
+                <p>Tell us about what you're sending</p>
+                
+                <form id="packageDetailsForm" class="delivery-form">
+                    <div class="form-group">
+                        <label for="packageType">Package Type</label>
+                        <select id="packageType" name="packageType" required>
+                            <option value="" disabled selected>Select package type</option>
+                            <option value="document">Document/Envelope</option>
+                            <option value="small">Small Package</option>
+                            <option value="medium">Medium Package</option>
+                            <option value="large">Large Package</option>
+                            <option value="fragile">Fragile Item</option>
+                            <option value="custom">Custom Item</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="packageWeight">Weight (kg)</label>
+                        <input type="number" id="packageWeight" name="packageWeight" min="0.1" step="0.1" placeholder="Enter weight in kg" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="packageDescription">Package Description</label>
+                        <textarea id="packageDescription" name="packageDescription" placeholder="Briefly describe your package contents" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="option-group">
+                            <input type="checkbox" id="isFragile" name="isFragile">
+                            <label for="isFragile">Fragile contents</label>
+                        </div>
+                        
+                        <div class="option-group">
+                            <input type="checkbox" id="requireSignature" name="requireSignature">
+                            <label for="requireSignature">Require signature</label>
+                        </div>
+                        
+                        <div class="option-group">
+                            <input type="checkbox" id="insurance" name="insurance">
+                            <label for="insurance">Add insurance</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Locations</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Step 2: Locations -->
+            <div class="form-step" id="step2">
+                <h2>Pickup & Delivery Locations</h2>
+                <p>Tell us where to pick up and deliver your package</p>
+
+                <form id="locationsForm" class="delivery-form">
+                    <div class="form-section">
+                        <h3><i class="fas fa-map-marker-alt"></i> Pickup Information</h3>
+
+                        <div class="form-group">
+                            <label for="pickupAddress">Pickup Address</label>
+                            <input type="text" id="pickupAddress" name="pickupAddress" placeholder="Enter full address" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pickupDate">Pickup Date</label>
+                                <input type="date" id="pickupDate" name="pickupDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pickupTime">Pickup Time</label>
+                                <select id="pickupTime" name="pickupTime" required>
+                                    <option value="" disabled selected>Select time</option>
+                                    <option value="morning">Morning (8AM - 12PM)</option>
+                                    <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                    <option value="evening">Evening (4PM - 8PM)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pickupInstructions">Special Instructions (Optional)</label>
+                            <textarea id="pickupInstructions" name="pickupInstructions" placeholder="Any details for the pickup driver" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-map-pin"></i> Delivery Information</h3>
+
+                        <div class="form-group">
+                            <label for="deliveryAddress">Delivery Address</label>
+                            <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Enter full address" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipientName">Recipient Name</label>
+                            <input type="text" id="recipientName" name="recipientName" placeholder="Who will receive the package" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipientPhone">Recipient Phone</label>
+                            <input type="tel" id="recipientPhone" name="recipientPhone" placeholder="Recipient's contact number" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deliveryInstructions">Delivery Instructions (Optional)</label>
+                            <textarea id="deliveryInstructions" name="deliveryInstructions" placeholder="Any details for the delivery driver" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline prev-step">Back to Package</button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Vehicle</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 3: Vehicle Selection -->
+            <div class="form-step" id="step3">
+                <h2>Select Delivery Vehicle</h2>
+                <p>Choose the right vehicle for your package</p>
+
+                <form id="vehicleForm" class="delivery-form">
+                    <div class="vehicle-options-grid">
+                        <div class="vehicle-option">
+                            <input type="radio" id="bike" name="vehicleType" value="bike">
+                            <label for="bike" class="vehicle-card">
+                                <div class="vehicle-icon">
+                                    <i class="fas fa-bicycle"></i>
+                                </div>
+                                <h3>Bike Delivery</h3>
+                                <p>Small packages, fast delivery</p>
+                                <ul class="vehicle-features">
+                                    <li><i class="fas fa-check"></i> Up to 5kg</li>
+                                    <li><i class="fas fa-check"></i> City areas only</li>
+                                    <li><i class="fas fa-check"></i> Fastest option</li>
+                                    <li><i class="fas fa-check"></i> Eco-friendly</li>
+                                </ul>
+                                <div class="vehicle-price">$9.99</div>
+                            </label>
+                        </div>
+
+                        <div class="vehicle-option">
+                            <input type="radio" id="car" name="vehicleType" value="car">
+                            <label for="car" class="vehicle-card">
+                                <div class="vehicle-icon">
+                                    <i class="fas fa-car"></i>
+                                </div>
+                                <h3>Car Delivery</h3>
+                                <p>Medium packages, balanced speed</p>
+                                <ul class="vehicle-features">
+                                    <li><i class="fas fa-check"></i> Up to 20kg</li>
+                                    <li><i class="fas fa-check"></i> Wider range</li>
+                                    <li><i class="fas fa-check"></i> Good value</li>
+                                    <li><i class="fas fa-check"></i> Weather protected</li>
+                                </ul>
+                                <div class="vehicle-price">$14.99</div>
+                            </label>
+                        </div>
+
+                        <div class="vehicle-option">
+                            <input type="radio" id="truck" name="vehicleType" value="truck">
+                            <label for="truck" class="vehicle-card">
+                                <div class="vehicle-icon">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <h3>Truck Delivery</h3>
+                                <p>Large packages, furniture, bulky items</p>
+                                <ul class="vehicle-features">
+                                    <li><i class="fas fa-check"></i> 20kg and above</li>
+                                    <li><i class="fas fa-check"></i> Any location</li>
+                                    <li><i class="fas fa-check"></i> Most capacity</li>
+                                    <li><i class="fas fa-check"></i> Professional handling</li>
+                                </ul>
+                                <div class="vehicle-price">$24.99</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="delivery-options">
+                        <h3>Delivery Options</h3>
+
+                        <div class="option-group">
+                            <input type="checkbox" id="expressDelivery" name="expressDelivery">
+                            <label for="expressDelivery">Express Delivery (+$5.00)</label>
+                        </div>
+
+                        <div class="option-group">
+                            <input type="checkbox" id="weekendDelivery" name="weekendDelivery">
+                            <label for="weekendDelivery">Weekend Delivery (+$3.00)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline prev-step">Back to Locations</button>
+                        <button type="button" class="btn btn-primary next-step">Continue to Payment</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 4: Payment -->
+            <div class="form-step" id="step4">
+                <h2>Payment Information</h2>
+                <p>Complete your delivery request with payment</p>
+
+                <form id="paymentForm" class="delivery-form">
+                    <div class="order-summary">
+                        <h3>Order Summary</h3>
+                        <div class="summary-item">
+                            <span>Base Delivery Fee:</span>
+                            <span id="baseDeliveryFee">$14.99</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Additional Services:</span>
+                            <span id="additionalServices">$0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Tax:</span>
+                            <span id="taxAmount">$1.50</span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>Total:</span>
+                            <span id="totalAmount">$16.49</span>
+                        </div>
+                    </div>
+
+                    <div class="payment-methods">
+                        <h3>Payment Method</h3>
+
+                        <div class="payment-options">
+                            <div class="payment-option">
+                                <input type="radio" id="creditCard" name="paymentMethod" value="creditCard" checked>
+                                <label for="creditCard">
+                                    <i class="fas fa-credit-card"></i> Credit Card
+                                </label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" id="paypal" name="paymentMethod" value="paypal">
+                                <label for="paypal">
+                                    <i class="fab fa-paypal"></i> PayPal
+                                </label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" id="applePay" name="paymentMethod" value="applePay">
+                                <label for="applePay">
+                                    <i class="fab fa-apple-pay"></i> Apple Pay
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="creditCardForm" class="payment-form-section">
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number</label>
+                                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiryDate">Expiry Date</label>
+                                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cardholderName">Cardholder Name</label>
+                                <input type="text" id="cardholderName" name="cardholderName" placeholder="Name on card" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="termsAgree" name="termsAgree" required>
+                        <label for="termsAgree">I agree to the <a href="#">Terms of Service</a> and <a href="#">Delivery Policy</a></label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline prev-step">Back to Vehicle</button>
+                        <button type="submit" class="btn btn-primary">Complete Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sendoo</h3>
+                <p>Fast, reliable package delivery for everyone.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="history.html">Delivery History</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/delivery.js"></script>
+</body>
+</html>

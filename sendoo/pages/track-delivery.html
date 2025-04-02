@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - Track Delivery</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><h1>Sendoo</h1></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html" class="active">Track</a>
+            <a href="history.html">History</a>
+        </div>
+    </nav>
+
+    <section class="tracking-container">
+        <h1>Track Your Delivery</h1>
+        <form id="trackForm">
+            <label for="trackingId">Enter Tracking ID:</label>
+            <input type="text" id="trackingId" name="trackingId" placeholder="Tracking ID" required>
+            <button type="submit" class="btn btn-primary">Track</button>
+        </form>
+
+        <div class="tracking-details">
+            <h2>Delivery Status</h2>
+            <p id="statusText">Enter a tracking ID to see delivery details.</p>
+        </div>
+    </section>
+
+    <script src="../js/track.js"></script>
+</body>
+</html>

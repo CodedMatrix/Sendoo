@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendoo - My Profile</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times:before { content: "✕"; }
+        .fa-rocket:before { content: "🚀"; }
+        .fa-user:before { content: "👤"; }
+        .fa-history:before { content: "🕒"; }
+        .fa-cog:before { content: "⚙️"; }
+        .fa-sign-out-alt:before { content: "🚪"; }
+        .fa-camera:before { content: "📷"; }
+        .fa-edit:before { content: "✏️"; }
+        .fa-save:before { content: "💾"; }
+        .fa-home:before { content: "🏠"; }
+        .fa-building:before { content: "🏢"; }
+        .fa-city:before { content: "🏙️"; }
+        .fa-map:before { content: "🗺️"; }
+        .fa-mail-bulk:before { content: "📮"; }
+        .fa-globe:before { content: "🌎"; }
+        .fa-calendar:before { content: "📅"; }
+    </style>
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="create-delivery.html">Send Package</a>
+            <a href="track-delivery.html">Track</a>
+            <a href="history.html">History</a>
+        </div>
+        <div class="user-menu">
+            <i class="fas fa-user-circle"></i>
+            <span>John Doe</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <section class="profile-container">
+        <div class="page-header">
+            <h1>My Profile</h1>
+            <p>Manage your personal information and preferences</p>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="profile-avatar">
+                    <div class="avatar-image">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>John Doe</h3>
+                    <p>Member since January 2025</p>
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-camera"></i> Change Photo
+                    </button>
+                </div>
+                <div class="profile-menu">
+                    <a href="profile.html" class="active">
+                        <i class="fas fa-user"></i> Personal Information
+                    </a>
+                    <a href="history.html">
+                        <i class="fas fa-history"></i> Delivery History
+                    </a>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Account Settings
+                    </a>
+                    <a href="#" class="logout-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+
+            <div class="profile-details">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-user"></i> Personal Information</h3>
+                        <button class="btn btn-outline btn-sm edit-profile-btn">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <form id="profileForm" class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fullName"><i class="fas fa-user"></i> Full Name</label>
+                                    <div class="input-icon">
+                                        <input type="text" id="fullName" name="fullName" value="John Doe" disabled>
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="error-message"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                                    <div class="input-icon">
+                                        <input type="email" id="email" name="email" value="john.doe@example.com" disabled>
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="error-message"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                                    <div class="input-icon">
+                                        <input type="tel" id="phone" name="phone" value="(123) 456-7890" disabled>
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div class="error-message"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="birthdate"><i class="fas fa-calendar"></i> Date of Birth</label>
+                                    <div class="input-icon">
+                                        <input type="date" id="birthdate" name="birthdate" value="1990-01-01" disabled>
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                    <div class="error-message"></div>
+                                </div>
+                            </div>
+                            <div class="form-actions" style="display: none;">
+                                <button type="button" class="btn btn-outline cancel-edit-btn">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary save-profile-btn">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-map-marker-alt"></i> Default Address</h3>
+                        <button class="btn btn-outline btn-sm edit-address-btn">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <form id="addressForm" class="address-form">
+                            <div class="form-group">
+                                <label for="addressLine1"><i class="fas fa-home"></i> Address Line 1</label>
+                                <div class="input-icon">
+                                    <input type="text" id="addressLine1" name="addressLine1" value="123 Main Street" disabled>
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addressLine2"><i class="fas fa-building"></i> Address Line 2</label>
+                                <div class="input-icon">
+                                    <input type="text" id="addressLine2" name="addressLine2" value="Apt 4B" disabled>
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city"><i class="fas fa-city"></i> City</label>
+                                    <div class="input-icon">
+                                        <input type="text" id="city" name="city" value="New York" disabled>
+                                        <i class="fas fa-city"></i>
+                                    </div>
+                                    <div class="error-message"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state"><i class="fas fa-map"></i> State</label>
+                                    <div class="input-icon">
+                                        <input type="text" id="state" name="state" value="NY" disabled>
+                                        <i class="fas fa-map"></i>
+                                    </div>
+                                    <div class="error-message"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="zipCode"><i class="fas fa-mail-bulk"></i> Zip Code</label>
+                                    <div class="input-icon">
+                                        <input type="text" id="zipCode" name="zipCode" value="10001" disabled>
+                                        <i class="fas fa-mail-bulk"></i>
+                                    </div>
+                                    <div class="error-message"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="country"><i class="fas fa-globe"></i> Country</label>
+                                    <div class="input-icon">
+                                        <input type="text" id="country" name="country" value="United States" disabled>
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <div class="error-message"></div>
+                                </div>
+                            </div>
+                            <div class="form-actions" style="display: none;">
+                                <button type="button" class="btn btn-outline cancel-address-btn">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary save-address-btn">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sendoo</h3>
+                <p>Fast, reliable package delivery for everyone.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="create-delivery.html">Send Package</a></li>
+                    <li><a href="track-delivery.html">Track Delivery</a></li>
+                    <li><a href="history.html">Delivery History</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

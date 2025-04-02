@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sendoo - Fast and reliable package delivery service for all your shipping needs.">
+    <meta name="theme-color" content="#4a6cf7">
+    <title>Sendoo - Fast & Reliable Package Delivery</title>
+
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Font Awesome fallback -->
+    <style>
+        /* Basic icon fallbacks if Font Awesome fails to load */
+        .fa-box:before { content: "📦"; }
+        .fa-search-location:before { content: "🔍"; }
+        .fa-bicycle:before { content: "🚲"; }
+        .fa-car:before { content: "🚗"; }
+        .fa-truck:before { content: "🚚"; }
+        .fa-credit-card:before { content: "💳"; }
+        .fa-map-marker-alt:before { content: "📍"; }
+        .fa-phone:before { content: "📞"; }
+        .fa-envelope:before { content: "✉️"; }
+        .fa-user-circle:before { content: "👤"; }
+        .fa-chevron-down:before { content: "▼"; }
+        .fa-star:before { content: "★"; }
+        .fa-star-half-alt:before { content: "⯪"; }
+        .fa-check-circle:before { content: "✓"; }
+        .fa-times:before { content: "✕"; }
+        .fa-rocket:before { content: "🚀"; }
+        .fa-wifi-slash:before { content: "📵"; }
+        .fa-sync-alt:before { content: "🔄"; }
+    </style>
+
+    <!-- Try to load Font Awesome with a timeout -->
+    <script>
+        // Set a timeout for Font Awesome loading
+        const fontAwesomeTimeout = setTimeout(function() {
+            console.log('Font Awesome loading timed out, using fallback icons');
+            document.body.classList.add('icons-fallback');
+        }, 2000);
+
+        // Create a link element for Font Awesome
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+
+        // When Font Awesome loads successfully, clear the timeout
+        fontAwesomeLink.onload = function() {
+            clearTimeout(fontAwesomeTimeout);
+            console.log('Font Awesome loaded successfully');
+        };
+
+        // Append the link to the head
+        document.head.appendChild(fontAwesomeLink);
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Sendoo</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="pages/create-delivery.html">Send Package</a>
+            <a href="pages/track-delivery.html">Track</a>
+            <a href="pages/history.html">History</a>
+        </div>
+        <div class="auth-buttons">
+            <!-- Will be populated by auth.js -->
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Fast & Reliable Package Delivery</h1>
+            <p>Send packages anywhere with ease. Track in real-time and get delivery updates.</p>
+            <div class="hero-buttons">
+                <a href="pages/create-delivery.html" class="btn btn-primary">Send a Package</a>
+                <a href="pages/track-delivery.html" class="btn btn-outline">Track Delivery</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="images/hero-delivery.svg" alt="Delivery illustration">
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Simple steps to send your package</p>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h3>Package Details</h3>
+                <p>Enter your package information including size, weight, and contents.</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>Pickup & Delivery</h3>
+                <p>Provide pickup and delivery addresses for your package.</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>Choose Vehicle</h3>
+                <p>Select the appropriate vehicle based on your package size.</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h3>Payment</h3>
+                <p>Pay securely and receive confirmation with tracking number.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="section-header">
+            <h2>Our Services</h2>
+            <p>Tailored solutions for all your delivery needs</p>
+        </div>
+        <div class="services-container">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-bicycle"></i>
+                </div>
+                <h3>Local Delivery</h3>
+                <p>Quick delivery for small packages within the city using bicycles and motorcycles.</p>
+                <a href="pages/create-delivery.html" class="btn btn-outline">Send Now</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>Standard Delivery</h3>
+                <p>Reliable delivery for medium-sized packages using cars with standard timing.</p>
+                <a href="pages/create-delivery.html" class="btn btn-outline">Send Now</a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>Large Packages</h3>
+                <p>Specialized delivery for large and heavy items using vans and trucks.</p>
+                <a href="pages/create-delivery.html" class="btn btn-outline">Send Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="section-header">
+            <h2>What Our Customers Say</h2>
+            <p>Trusted by thousands of satisfied customers</p>
+        </div>
+        <div class="testimonials-container">
+            <div class="testimonial">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Sendoo made shipping my products so much easier. The tracking system is excellent and my customers love the real-time updates."</p>
+                <div class="testimonial-author">
+                    <img src="images/testimonial-1.jpg" alt="Sarah Johnson">
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Small Business Owner</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p class="testimonial-text">"I needed to send a large package across town urgently. Sendoo had it delivered within hours. Impressive service!"</p>
+                <div class="testimonial-author">
+                    <img src="images/testimonial-2.jpg" alt="Michael Chen">
+                    <div class="author-info">
+                        <h4>Michael Chen</h4>
+                        <p>Freelance Designer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">"The customer service is outstanding. When I had an issue with my delivery, they resolved it immediately. Highly recommended!"</p>
+                <div class="testimonial-author">
+                    <img src="images/testimonial-3.jpg" alt="Emily Rodriguez">
+                    <div class="author-info">
+                        <h4>Emily Rodriguez</h4>
+                        <p>Regular Customer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-content">
+            <h2>Ready to Send Your Package?</h2>
+            <p>Fast, secure, and reliable delivery at your fingertips.</p>
+            <a href="pages/create-delivery.html" class="btn btn-primary">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Sendoo</h3>
+                <p>Fast and reliable package delivery service for all your shipping needs.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pages/create-delivery.html">Send Package</a></li>
+                    <li><a href="pages/track-delivery.html">Track Delivery</a></li>
+                    <li><a href="pages/contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Delivery St, City</li>
+                    <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> support@sendoo.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sendoo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/socket.js"></script>
+
+    <!-- Install PWA prompt -->
+    <div id="pwa-install-prompt" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; max-width: 90%; width: 400px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="images/favicon.png" alt="Sendoo logo" style="width: 32px; height: 32px;">
+                <span style="font-weight: 600; font-size: 16px;">Install Sendoo App</span>
+            </div>
+            <button id="pwa-close" style="background: none; border: none; cursor: pointer; font-size: 18px; color: #666;">&times;</button>
+        </div>
+        <p style="margin: 0 0 15px 0; font-size: 14px; color: #666;">Install Sendoo on your device for a better experience with offline support and faster access.</p>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button id="pwa-later" style="background: none; border: 1px solid #ddd; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Later</button>
+            <button id="pwa-install" style="background-color: #4a6cf7; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Install</button>
+        </div>
+    </div>
+
+    <script>
+        // PWA install prompt
+        let deferredPrompt;
+        const pwaPrompt = document.getElementById('pwa-install-prompt');
+        const pwaInstall = document.getElementById('pwa-install');
+        const pwaLater = document.getElementById('pwa-later');
+        const pwaClose = document.getElementById('pwa-close');
+
+        // Check if user has already dismissed or installed
+        const pwaStatus = localStorage.getItem('pwa-status');
+        const pwaLastPrompt = localStorage.getItem('pwa-last-prompt');
+        const now = Date.now();
+        const promptDelay = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+
+            // Show the prompt if user hasn't dismissed or installed recently
+            if (pwaStatus !== 'dismissed' && pwaStatus !== 'installed' &&
+                (!pwaLastPrompt || now - parseInt(pwaLastPrompt) > promptDelay)) {
+                // Show after a short delay to allow page to load
+                setTimeout(() => {
+                    pwaPrompt.style.display = 'block';
+                }, 3000);
+            }
+        });
+
+        // Install button click
+        pwaInstall.addEventListener('click', async () => {
+            pwaPrompt.style.display = 'none';
+
+            if (!deferredPrompt) {
+                return;
+            }
+
+            // Show the install prompt
+            deferredPrompt.prompt();
+
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+
+            // Save the status
+            localStorage.setItem('pwa-status', outcome === 'accepted' ? 'installed' : 'dismissed');
+            localStorage.setItem('pwa-last-prompt', now.toString());
+
+            // Clear the saved prompt
+            deferredPrompt = null;
+        });
+
+        // Later button click
+        pwaLater.addEventListener('click', () => {
+            pwaPrompt.style.display = 'none';
+            localStorage.setItem('pwa-last-prompt', now.toString());
+        });
+
+        // Close button click
+        pwaClose.addEventListener('click', () => {
+            pwaPrompt.style.display = 'none';
+            localStorage.setItem('pwa-status', 'dismissed');
+            localStorage.setItem('pwa-last-prompt', now.toString());
+        });
+
+        // Check if app was installed
+        window.addEventListener('appinstalled', () => {
+            pwaPrompt.style.display = 'none';
+            localStorage.setItem('pwa-status', 'installed');
+            console.log('PWA was installed');
+        });
+    </script>
+</body>
+</html>
